@@ -3,13 +3,13 @@
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 
-export default function Home() {
+export default function TwitterCallback() {
   const searchParams = useSearchParams();
   const code = searchParams.get("code");
 
   useEffect(() => {
     if (code) {
-      // Send the authorization code to your backend (server-side API)
+      // Send the authorization code to your backend to exchange it for an access token
       fetch("/api/auth/callback", {
         method: "POST",
         headers: {
