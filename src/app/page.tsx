@@ -35,7 +35,7 @@ export default function Home() {
     const state = "twitter_oauth_state";
     const codeChallenge = "random_code_challenge";
 
-    const authUrl = `https://twitter.com/i/oauth2/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&scope=tweet.read%20users.read&state=${state}&code_challenge=${codeChallenge}&code_challenge_method=plain`;
+    const authUrl = `https://twitter.com/i/oauth2/authorize?response_type=code&client_id=TjR3emVKX3ZtTFNNdUd5cEVKWFc6MTpjaQ&redirect_uri=https://twitter-auth.vercel.com&scope=tweet.read%20users.read&state=state&code_challenge=challenge&code_challenge_method=plain`;
 
     window.location.href = authUrl;
   }
@@ -49,7 +49,7 @@ export default function Home() {
           <h2>
             Welcome, {userData.data.name} (@{userData.data.username})
           </h2>
-          <img src={userData.data.profile_image_url} alt='Profile' />
+
           <p>
             Joined Twitter:{" "}
             {new Date(userData.data.created_at).toLocaleDateString()}
