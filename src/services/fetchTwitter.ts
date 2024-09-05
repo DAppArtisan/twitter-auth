@@ -1,6 +1,4 @@
 import axios from "axios";
-import { auth } from "twitter-api-sdk";
-
 export default async function fetchTwitter(code: string) {
   try {
     console.log("fetch code works");
@@ -9,7 +7,6 @@ export default async function fetchTwitter(code: string) {
       throw new Error("Authorization code is missing");
     }
 
-    // Replace the hardcoded clientId, clientSecret, and redirectUri with your own
     const clientId = "TjR3emVKX3ZtTFNNdUd5cEVKWFc6MTpjaQ";
     const clientSecret = "KxKOV0oXZZn4FWYzHrGnYjOYOdL4DiSOCW5go1KGckijzO";
     const redirectUri =
@@ -29,11 +26,7 @@ export default async function fetchTwitter(code: string) {
     }).toString();
 
     // Exchange code for access token
-    const tokenResponse = await axios.post(tokenUrl, requestBody, {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-    });
+    const tokenResponse = await axios.post(tokenUrl, requestBody, {});
 
     const { access_token } = tokenResponse.data;
     console.log("Access Token:", access_token);
