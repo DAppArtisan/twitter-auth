@@ -12,7 +12,8 @@ export default async function fetchTwitter(code: string) {
     // Replace the hardcoded clientId, clientSecret, and redirectUri with your own
     const clientId = "TjR3emVKX3ZtTFNNdUd5cEVKWFc6MTpjaQ";
     const clientSecret = "KxKOV0oXZZn4FWYzHrGnYjOYOdL4DiSOCW5go1KGckijzO";
-    const redirectUri = "https://twitter-auth-nine.vercel.app";
+    const redirectUri =
+      "https://twitter-auth-nine.vercel.app/api/auth/callback";
     const codeVerifier = "random_code_challenge";
 
     const authClient = new auth.OAuth2User({

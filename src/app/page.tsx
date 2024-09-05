@@ -1,20 +1,24 @@
 "use client";
 
 export default function Home() {
-  function handleXLogin() {
-    // const clientId = process.env.NEXT_PUBLIC_TWITTER_ID as string;
-    // const redirectUri = process.env.NEXT_PUBLIC_REDIRECT_URL as string;
-    // const state = "twitter_oauth_state";
-    // const codeChallenge = "random_code_challenge";
+  function handleTwitterLogin() {
+    const clientId = "TjR3emVKX3ZtTFNNdUd5cEVKWFc6MTpjaQ";
+    const redirectUri = encodeURIComponent(
+      "https://twitter-auth-nine.vercel.app/api/auth/callback"
+    );
+    const state = "twitter_oauth_state"; // You should use a random string in production
+    const codeChallenge = "codeChallenge";
 
-    const authUrl = `https://twitter.com/i/oauth2/authorize?response_type=code&client_id=TjR3emVKX3ZtTFNNdUd5cEVKWFc6MTpjaQ&redirect_uri=twitter-auth-nine.vercel.app&scope=tweet.read%20users.read&state=state&code_challenge=challenge&code_challenge_method=plain`;
+    // Construct the authorization URL
+    const authUrl = `https://twitter.com/i/oauth2/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&scope=tweet.read%20users.read&state=${state}&code_challenge=${codeChallenge}&code_challenge_method=S256`;
 
+    // Redirect the user to the authorization URL
     window.location.href = authUrl;
   }
 
   return (
     <div>
-      <button onClick={handleXLogin}>Twitter newLogin</button>
+      <button onClick={handleTwitterLogin}>Twitter Login</button>
     </div>
   );
 }
