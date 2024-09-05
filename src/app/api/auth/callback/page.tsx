@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import fetchTwitter from "@/services/fetchTwitter";
 import { useRouter, useSearchParams } from "next/navigation";
 
-const twitter = () => {
+const Twitter = () => {
   const router = useRouter();
   const urlParams = useSearchParams();
   const code = urlParams.get("code");
@@ -13,7 +13,7 @@ const twitter = () => {
   // Discord Data Load
   useEffect(() => {
     if (code) {
-      fetchTwitter(code, state)
+      fetchTwitter(code)
         .then((user) => {
           console.log("User data:", user);
           router.push("/");
@@ -28,4 +28,4 @@ const twitter = () => {
   return <div>Twitter callback URl</div>;
 };
 
-export default twitter;
+export default Twitter;

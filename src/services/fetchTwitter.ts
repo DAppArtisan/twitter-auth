@@ -1,21 +1,23 @@
 import axios from "axios";
 
-export default async function fetchTwitterUserInfo(
-  code: string,
-  state: string | null
-) {
+export default async function fetchTwitterUserInfo(code: string) {
   try {
     if (!code) {
       throw new Error("Authorization code is missing");
     }
 
-    const clientId = process.env.NEXT_PUBLIC_TWITTER_ID as string;
-    const clientSecret = process.env.NEXT_PUBLIC_TWITTER_SECRET as string;
-    const redirectUri = process.env.NEXT_PUBLIC_REDIRECT_URL;
+    // const clientId = process.env.NEXT_PUBLIC_TWITTER_ID as string;
+    // const clientSecret = process.env.NEXT_PUBLIC_TWITTER_SECRET as string;
+    // const redirectUri = process.env.NEXT_PUBLIC_REDIRECT_URL;
+    // const codeVerifier = "random_code_challenge";
+    const clientId = "TjR3emVKX3ZtTFNNdUd5cEVKWFc6MTpjaQ";
+    // const clientSecret = "KxKOV0oXZZn4FWYzHrGnYjOYOdL4DiSOCW5go1KGckijzO";
+    const redirectUri = "https://twitter-auth.vercel.com";
     const codeVerifier = "random_code_challenge";
-    if (!clientId || !clientSecret || !redirectUri) {
-      throw new Error("Twitter client ID, secret, or redirect URI is missing");
-    }
+
+    // if (!clientId || !clientSecret || !redirectUri) {
+    //   throw new Error("Twitter client ID, secret, or redirect URI is missing");
+    // }
 
     // Twitter OAuth 2.0 token endpoint
     const tokenUrl = "https://api.x.com/2/oauth2/token";
