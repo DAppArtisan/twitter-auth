@@ -2,17 +2,18 @@
 
 export default function Home() {
   function handleTwitterLogin() {
-    const clientId = process.env.NEXT_PUBLIC_TWITTER_ID as string;
+    const clientId = "TjR3emVKX3ZtTFNNdUd5cEVKWFc6MTpjaQ";
     const redirectUri = encodeURIComponent(
-      "https://twitter-auth-nine.vercel.app/api/auth/callback"
+      "https://twitter-auth-nine.vercel.app"
     );
-    const state = "twitter_oauth_state"; // Replace with a random string in production
-    const codeChallenge = "codeChallenge"; // This should be dynamically generated with PKCE in production
+    const state = "twitter_oauth_state"; // You should use a random string in production
+
+    const codeChallenge = "codeChallenge";
 
     // Construct the authorization URL
     const authUrl = `https://twitter.com/i/oauth2/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&scope=tweet.read%20users.read&state=${state}&code_challenge=${codeChallenge}&code_challenge_method=S256`;
 
-    // Redirect the user to the Twitter authorization URL
+    // Redirect the user to the authorization URL
     window.location.href = authUrl;
   }
 
