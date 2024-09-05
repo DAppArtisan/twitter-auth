@@ -26,7 +26,11 @@ export default async function fetchTwitter(code: string) {
     }).toString();
 
     // Exchange code for access token
-    const tokenResponse = await axios.post(tokenUrl, requestBody, {});
+    const tokenResponse = await axios.post(tokenUrl, requestBody, {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
 
     const { access_token } = tokenResponse.data;
     console.log("Access Token:", access_token);

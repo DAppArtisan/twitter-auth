@@ -1,31 +1,36 @@
 "use client";
-import React, { useEffect } from "react";
-import fetchTwitter from "@/services/fetchTwitter";
-import { useRouter, useSearchParams } from "next/navigation";
 
-const Twitter = () => {
-  const router = useRouter();
-  const urlParams = useSearchParams();
-  const code = urlParams.get("code");
-  const state = urlParams.get("state");
+import { useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 
-  console.log("code", code, state);
-  // Discord Data Load
+export default function Home() {
+  const searchParams = useSearchParams();
+  const code = searchParams.get("code");
+
   useEffect(() => {
     if (code) {
-      fetchTwitter(code)
-        .then((user) => {
-          console.log("User data:", user);
-          router.push("/");
+      // Send the authorization code to your backend (server-side API)
+      fetch("/api/auth/callback", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ code }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Access Token:", data.accessToken);
         })
         .catch((error) => {
-          router.push("/");
-          console.error("Error fetching Discord data:", error);
+          console.error("Error fetching access token:", error);
         });
     }
-  }, [code, router]);
+  }, [code]);
 
-  return <div>Twitter callback URl</div>;
-};
-
-export default Twitter;
+  return (
+    <div>
+      <h1>Twitter OAuth 2.0</h1>
+      <p>Waiting for authorization...</p>
+    </div>
+  );
+}
