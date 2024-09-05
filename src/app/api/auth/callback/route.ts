@@ -38,7 +38,7 @@ export async function POST(req: Request) {
     const { access_token } = tokenResponse.data;
 
     // Fetch user information using the access token
-    const userResponse = await axios.get("https://api.twitter.com/2/me", {
+    const userResponse = await axios.get("https://api.x.com/2/users/me", {
       headers: {
         Authorization: `Bearer ${access_token}`,
       },
