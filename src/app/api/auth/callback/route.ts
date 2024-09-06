@@ -1,65 +1,92 @@
-import { NextResponse } from "next/server";
+import { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 
-export async function POST(req: Request) {
-  console.log("post block");
-  try {
-    const { code } = await req.json();
-    console.log("code", code);
-    if (!code) {
-      return NextResponse.json(
-        { error: "Authorization code is missing" },
-        { status: 400 }
-      );
-    }
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  if (req.method === "POST") {
+    try {
+      const { code } = req.body;
 
-    const clientId = process.env.NEXT_PUBLIC_TWITTER_ID as string;
-    const clientSecret = process.env.NEXT_PUBLIC_TWITTER_SECRET as string;
-    const redirectUri = "https://twitter-auth-nine.vercel.app/api/callback";
-    const codeVerifier = "random_code_challenge"; // This should be dynamically generated and stored in a session or local storage
-    const plainTextBytes = new TextEncoder().encode(
-      `${clientId}:${clientSecret}`
-    );
-    const base64EncodedCredentials = btoa(
-      String.fromCharCode(...plainTextBytes)
-    );
-
-    // Exchange authorization code for an access token using the correct Twitter API endpoint
-    const tokenResponse = await axios.post(
-      "https://api.twitter.com/2/oauth2/token",
-      new URLSearchParams({
-        code,
-        grant_type: "authorization_code",
-        client_id: clientId,
-        redirect_uri: redirectUri,
-        code_verifier: codeVerifier,
-      }).toString(),
-      {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          Authorization: `Basic ${base64EncodedCredentials}`,
-        },
+      if (!code) {
+        return res
+          .status(400)
+          .json({ message: "Authorization code is missing." });
       }
-    );
 
-    console.log("access token", tokenResponse);
-    const { access_token } = tokenResponse.data;
+      const clientId = process.env.NEXT_PUBLIC_TWITTER_ID;
+      const clientSecret = process.env.NEXT_PUBLIC_TWITTER_SECRET;
 
-    // Fetch user information using the access token from the correct Twitter API endpoint
-    const userResponse = await axios.get("https://api.twitter.com/2/users/me", {
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-      },
-    });
+      if (!clientId || !clientSecret) {
+        return res
+          .status(500)
+          .json({ message: "Twitter client credentials are missing." });
+      }
 
-    const user = userResponse.data;
-    console.log("user data", user);
-    return NextResponse.json({ accessToken: access_token, user });
-  } catch (error) {
-    console.error("Error during Twitter OAuth callback:", error);
-    return NextResponse.json(
-      { error: "Failed to exchange token" },
-      { status: 500 }
-    );
+      const redirectUri = "https://twitter-auth-nine.vercel.app/api/callback";
+      const codeVerifier = "random_code_challenge"; // This should be dynamically generated and stored in a session or local storage
+
+      // Encode the client credentials
+      const base64EncodedCredentials = Buffer.from(
+        `${clientId}:${clientSecret}`
+      ).toString("base64");
+
+      // Exchange authorization code for an access token
+      const tokenResponse = await axios.post(
+        "https://api.twitter.com/2/oauth2/token",
+        new URLSearchParams({
+          code,
+          grant_type: "authorization_code",
+          client_id: clientId,
+          redirect_uri: redirectUri,
+          code_verifier: codeVerifier,
+        }).toString(),
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: `Basic ${base64EncodedCredentials}`,
+          },
+        }
+      );
+
+      const { access_token } = tokenResponse.data;
+
+      if (!access_token) {
+        return res
+          .status(500)
+          .json({ message: "Failed to retrieve access token." });
+      }
+
+      // Fetch user information using the access token
+      const userResponse = await axios.get(
+        "https://api.twitter.com/2/users/me",
+        {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+        }
+      );
+
+      const user = userResponse.data;
+
+      return res.status(200).json({ accessToken: access_token, user });
+    } catch (error) {
+      console.error("Error in Twitter OAuth process:", error);
+
+      if (axios.isAxiosError(error)) {
+        const axiosError = error.response?.data || error.message;
+        return res.status(500).json({
+          message: "Failed to authenticate with Twitter.",
+          error: axiosError,
+        });
+      } else {
+        return res
+          .status(500)
+          .json({ message: "An unexpected error occurred.", error: "error " });
+      }
+    }
+  } else {
+    return res.status(405).json({ message: "Method not allowed" });
   }
 }
