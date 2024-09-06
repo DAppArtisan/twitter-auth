@@ -4,7 +4,7 @@ export default function Home() {
   function handleTwitterLogin() {
     const clientId = "TjR3emVKX3ZtTFNNdUd5cEVKWFc6MTpjaQ";
     const redirectUri = encodeURIComponent(
-      "https://twitter-auth-nine.vercel.app/api/callback"
+      "https://twitter-auth-nine.vercel.app/api/twitter"
     );
     const state = "state"; // You should use a random string in production
 

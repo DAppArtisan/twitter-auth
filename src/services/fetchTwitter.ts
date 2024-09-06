@@ -8,9 +8,8 @@ export default async function fetchTwitter(code: string) {
     }
 
     const clientId = "TjR3emVKX3ZtTFNNdUd5cEVKWFc6MTpjaQ";
-    const clientSecret = "KxKOV0oXZZn4FWYzHrGnYjOYOdL4DiSOCW5go1KGckijzO";
-    const redirectUri =
-      "https://twitter-auth-nine.vercel.app/api/auth/callback";
+    // const clientSecret = "KxKOV0oXZZn4FWYzHrGnYjOYOdL4DiSOCW5go1KGckijzO";
+    const redirectUri = "https://twitter-auth-nine.vercel.app/api/twitter";
     const codeVerifier = "random_code_challenge";
 
     // Twitter OAuth 2.0 token endpoint
