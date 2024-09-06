@@ -11,7 +11,7 @@ export default function Home() {
     const codeChallenge = "codeChallenge";
 
     // Construct the authorization URL
-    const authUrl = `https://twitter.com/i/oauth2/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&scope=tweet.read%20users.read&state=${state}&code_challenge=${codeChallenge}&code_challenge_method=S256`;
+    const authUrl = `https://twitter.com/i/oauth2/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&scope=tweet.read%20users.read%20follows.read%20offline.access&state=${state}&code_challenge=${codeChallenge}&code_challenge_method=S256`;
 
     // Redirect the user to the authorization URL
     window.location.href = authUrl;

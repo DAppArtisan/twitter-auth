@@ -17,14 +17,12 @@ export async function POST(req: Request) {
     const redirectUri = "https://twitter-auth-nine.vercel.app/api/callback"; // Updated redirect URI
     const codeVerifier = "random_code_challenge"; // This should be dynamically generated
 
-    // Exchange authorization code for an access token
     const tokenResponse = await axios.post(
       "https://api.x.com/2/oauth2/token",
       new URLSearchParams({
         code,
         grant_type: "authorization_code",
         client_id: clientId,
-        client_secret: clientSecret,
         redirect_uri: redirectUri,
         code_verifier: codeVerifier,
       }).toString(),
@@ -34,7 +32,7 @@ export async function POST(req: Request) {
         },
       }
     );
-
+    console.log("access token", tokenResponse);
     const { access_token } = tokenResponse.data;
 
     // Fetch user information using the access token
