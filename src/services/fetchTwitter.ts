@@ -13,7 +13,7 @@ export default async function fetchTwitter(code: string) {
     const codeVerifier = "random_code_challenge";
 
     // Twitter OAuth 2.0 token endpoint
-    const tokenUrl = "https://api.x.com/2/oauth2/token";
+    const tokenUrl = "https://api.twitter.com/2/oauth2/token";
 
     // Prepare the request body
     const requestBody = new URLSearchParams({
