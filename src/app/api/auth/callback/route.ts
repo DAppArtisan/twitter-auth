@@ -53,7 +53,7 @@ export async function POST(req: Request) {
     });
 
     const user = userResponse.data;
-
+    console.log("user data", user);
     return NextResponse.json({ accessToken: access_token, user });
   } catch (error) {
     console.error("Error during Twitter OAuth callback:", error);

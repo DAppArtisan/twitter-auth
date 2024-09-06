@@ -6,11 +6,12 @@ import { useSearchParams } from "next/navigation";
 export default function TwitterCallback() {
   const searchParams = useSearchParams();
   const code = searchParams.get("code");
-
+  console.log("code", code);
   useEffect(() => {
     if (code) {
+      console.log("casll post ");
       // Send the authorization code to your backend to exchange it for an access token
-      fetch("/api/auth/callback", {
+      fetch("https://twitter-auth-nine.vercel.app//api/auth/callback", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
