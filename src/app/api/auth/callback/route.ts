@@ -4,7 +4,7 @@ import axios from "axios";
 export async function POST(req: Request) {
   try {
     const { code } = await req.json();
-
+    console.log("code", code);
     if (!code) {
       return NextResponse.json(
         { error: "Authorization code is missing" },
