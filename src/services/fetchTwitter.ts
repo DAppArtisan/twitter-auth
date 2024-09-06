@@ -35,7 +35,7 @@ export default async function fetchTwitter(code: string) {
     console.log("Access Token:", access_token);
 
     // Fetch user data from Twitter using the access token
-    const userResponse = await axios.get("https://api.twitter.com/2/me", {
+    const userResponse = await axios.get("https://api.x.com/2/users/me", {
       headers: {
         Authorization: `Bearer ${access_token}`,
       },
