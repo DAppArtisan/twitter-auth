@@ -14,11 +14,12 @@ export async function POST(req: Request) {
 
     const clientId = process.env.NEXT_PUBLIC_TWITTER_ID as string;
     const clientSecret = process.env.NEXT_PUBLIC_TWITTER_SECRET as string;
-    const redirectUri = "https://twitter-auth-nine.vercel.app/api/callback"; // Updated redirect URI
-    const codeVerifier = "random_code_challenge"; // This should be dynamically generated
+    const redirectUri = "https://twitter-auth-nine.vercel.app/api/callback";
+    const codeVerifier = "random_code_challenge"; // This should be dynamically generated and stored in a session or local storage
 
+    // Exchange authorization code for an access token using the correct Twitter API endpoint
     const tokenResponse = await axios.post(
-      "https://api.x.com/2/oauth2/token",
+      "https://api.twitter.com/2/oauth2/token",
       new URLSearchParams({
         code,
         grant_type: "authorization_code",
@@ -32,11 +33,12 @@ export async function POST(req: Request) {
         },
       }
     );
+
     console.log("access token", tokenResponse);
     const { access_token } = tokenResponse.data;
 
-    // Fetch user information using the access token
-    const userResponse = await axios.get("https://api.x.com/2/users/me", {
+    // Fetch user information using the access token from the correct Twitter API endpoint
+    const userResponse = await axios.get("https://api.twitter.com/2/users/me", {
       headers: {
         Authorization: `Bearer ${access_token}`,
       },
