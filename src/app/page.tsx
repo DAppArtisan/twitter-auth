@@ -6,7 +6,7 @@ export default function Home() {
     const redirectUri = encodeURIComponent(
       "https://twitter-auth-nine.vercel.app/api/callback"
     );
-    const state = "twitter_oauth_state"; // You should use a random string in production
+    const state = "state"; // You should use a random string in production
 
     const codeChallenge = "codeChallenge";
 

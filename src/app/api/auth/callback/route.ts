@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import axios from "axios";
 
 export async function POST(req: Request) {
+  console.log("post block");
   try {
     const { code } = await req.json();
     console.log("code", code);
@@ -16,6 +17,12 @@ export async function POST(req: Request) {
     const clientSecret = process.env.NEXT_PUBLIC_TWITTER_SECRET as string;
     const redirectUri = "https://twitter-auth-nine.vercel.app/api/callback";
     const codeVerifier = "random_code_challenge"; // This should be dynamically generated and stored in a session or local storage
+    const plainTextBytes = new TextEncoder().encode(
+      `${clientId}:${clientSecret}`
+    );
+    const base64EncodedCredentials = btoa(
+      String.fromCharCode(...plainTextBytes)
+    );
 
     // Exchange authorization code for an access token using the correct Twitter API endpoint
     const tokenResponse = await axios.post(
@@ -30,6 +37,7 @@ export async function POST(req: Request) {
       {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Basic ${base64EncodedCredentials}`,
         },
       }
     );
